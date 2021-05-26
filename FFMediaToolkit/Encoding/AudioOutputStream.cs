@@ -128,6 +128,16 @@
         /// <param name="samples">The sample data to write.</param>
         public void AddFrame(float[][] samples) => AddFrame(samples, lastFramePts + 1);
 
+        public unsafe void AddPacket(AVPacket* avp, long customPtsValue)
+        {
+            avp->dts = customPtsValue;
+            avp->pts = customPtsValue;
+
+            lastFramePts = customPtsValue;
+
+            stream.PushAsIs(avp);
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {

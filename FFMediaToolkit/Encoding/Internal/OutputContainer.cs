@@ -137,6 +137,16 @@
             ffmpeg.av_interleaved_write_frame(Pointer, packet);
         }
 
+        public void WriteAvPacket(AVPacket* packet)
+        {
+            if (!IsFileCreated)
+            {
+                throw new InvalidOperationException("The file must be opened before writing a packet. Use the OutputContainer.CreateFile() method.");
+            }
+
+            ffmpeg.av_interleaved_write_frame(Pointer, packet);
+        }
+
         /// <inheritdoc/>
         protected override void OnDisposing()
         {

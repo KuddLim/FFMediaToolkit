@@ -71,6 +71,11 @@
             packet.Wipe();
         }
 
+        public void PushAsIs(AVPacket* avp)
+        {
+            OwnerFile.WriteAvPacket(avp);
+        }
+
         /// <inheritdoc/>
         protected override void OnDisposing()
         {

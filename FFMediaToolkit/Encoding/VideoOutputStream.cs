@@ -75,6 +75,21 @@
         /// <param name="frame">The bitmap to write.</param>
         public void AddFrame(ImageData frame) => AddFrame(frame, lastFramePts + 1);
 
+        public unsafe void AddPacket(AVPacket* avp, long customPtsValue)
+        {
+            if (lastFramePts != -1 && customPtsValue <= lastFramePts)
+            {
+                customPtsValue = lastFramePts + 1;
+            }
+
+            avp->dts = customPtsValue;
+            avp->pts = customPtsValue;
+
+            lastFramePts = customPtsValue;
+
+            stream.PushAsIs(avp);
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
